@@ -1,0 +1,3 @@
+services:
+  coreai-mcu-documents:
+    command: npm run start:debug
