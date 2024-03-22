@@ -1,3 +1,5 @@
+const Joi = require('joi')
+
 module.exports = [{
   method: 'POST',
   path: '/document',
@@ -11,6 +13,19 @@ module.exports = [{
       parse: true,
       allow: 'multipart/form-data'
     },
+    validate: {
+      payload: Joi.object({
+        document: Joi.object({
+          hapi: Joi.object({
+            filename: Joi.string().regex(/^(.+)\.(doc|docx|pdf|txt)$/).message('Incorrect document file type. Must be .doc, .docx, .pdf or .txt .')
+          }).required().unknown(true)
+        }).required().unknown(true)
+      }).required().unknown(true),
+      failAction: (request, h, err) => {
+        console.log(err)
+        return h.response('failed').code(400)
+      }
+    }
   },
   handler: async (request, h) => {
     console.log('Document POST endpoint hit')
