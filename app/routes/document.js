@@ -1,4 +1,6 @@
 const Joi = require('joi')
+const { v4: uuid } = require('uuid')
+const { Readable } = require('stream')
 
 module.exports = [{
   method: 'POST',
@@ -28,22 +30,53 @@ module.exports = [{
     }
   },
   handler: async (request, h) => {
-    console.log('Document POST endpoint hit')
+    const fileBuffer = request.payload.document._data
+    // console.log('fileBuffer', fileBuffer)
 
-    const { payload } = request
-    console.log('payload', payload)
-    return payload
-    // return h.response('ok').code(200)
+    const filename = uuid()
+    // console.log('filename', filename)
+
+    const stream = new Readable()
+    stream.push(fileBuffer)
+    stream.push(null)
+
+    console.log('stream', stream)
+
+    /*
+      - To do:
+
+        - upload to Azure blob storage
+        - return fileName / UUID for use in document/uuid PUT endpoint
+    */
+
+    return h.response({ uuid: filename }).code(200)
   }
 },
 {
   method: 'PUT',
-  path: '/document/{id}',
+  path: '/document/{uuid}',
   options: {
     tags: ['api', 'document'],
   },
   handler: (request, h) => {
-    console.log(`Document PUT endpoint hit with id ${request.params.id}`)
-    return h.response(`${request.params.id}`).code(200)
+
+     /*
+      - To do:
+
+        - get / set file meta data using blob metadata
+        
+          Fields:
+            FileName
+            UploadedBy
+            DocumentType
+            Source
+            SourceAddress
+            SuggestedCategory
+            UserCategory
+            TargetMinster
+      */
+
+    console.log(`Document PUT endpoint hit with uuid ${request.params.uuid}`)
+    return h.response(`${request.params.uuid}`).code(200)
   }
 }]
