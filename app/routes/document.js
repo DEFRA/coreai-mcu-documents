@@ -1,6 +1,7 @@
 const Joi = require('joi')
 const { v4: uuid } = require('uuid')
 const { Readable } = require('stream')
+const { BlockBlobClient } = require('@azure/storage-blob')
 
 module.exports = [{
   method: 'POST',
@@ -33,7 +34,7 @@ module.exports = [{
     const fileBuffer = request.payload.document._data
     // console.log('fileBuffer', fileBuffer)
 
-    const filename = uuid()
+    const blobName = uuid()
     // console.log('filename', filename)
 
     const stream = new Readable()
@@ -48,8 +49,28 @@ module.exports = [{
         - upload to Azure blob storage
         - return fileName / UUID for use in document/uuid PUT endpoint
     */
+    const blobService = new BlockBlobClient(
+      process.env.AZURE_STORAGE_CONNECTION_STRING, 
+      containerName,
+      blobName
+    )
 
-    return h.response({ uuid: filename }).code(200)
+    const streamLength = fileBuffer.length
+  
+    blobService.uploadStream(stream, streamLength)
+    .then(
+        ()=>{
+          return h
+            .response({ uuid: blobName })
+            .code(200)
+        }
+    ).catch(
+        (err)=>{
+        if(err) {
+            handleError(err);
+            return;
+        }
+    })
   }
 },
 {
