@@ -1,7 +1,4 @@
 const processPayloadDocument = async (payload) => {
-    // const stream = new Readable()
-    // stream.push(fileBuffer)
-    // stream.push(null)
 
     const chunks = []
     
