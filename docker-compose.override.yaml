@@ -11,17 +11,20 @@ services:
     ports:
       - "3000:3000"
       - "9229:9229"
+    depends_on:
+      - coreai-mcu-documents-azurite
     volumes:
       - ./app:/home/node/app
       - ./test:/home/node/test
       - ./scripts:/home/node/scripts
       - ./package.json:/home/node/package.json
-  
-  coreai-mcu-documents-postgres:
+
+  coreai-mcu-documents-azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
     ports:
-      - "5432:5432"
+      - "${CORE_AI_DOCUMENTS_BLOB_PORT:-10000}:10000"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - azurite_data:/data
 
 volumes:
-  postgres_data:
+  azurite_data:
