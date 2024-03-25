@@ -51,7 +51,7 @@ module.exports = [{
     */
     const blobService = new BlockBlobClient(
       process.env.AZURE_STORAGE_CONNECTION_STRING, 
-      containerName,
+      process.env.AZURE_STORAGE_CONTAINER_NAME,
       blobName
     )
 
