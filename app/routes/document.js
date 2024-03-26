@@ -1,7 +1,6 @@
 const Joi = require('joi')
-const { processPayloadDocument } = require("../lib/document")
-const { saveDocument, updateDocumentMetadata } = require("../storage/document-repo")
-
+const { processPayloadDocument } = require('../lib/document')
+const { saveDocument, updateDocumentMetadata } = require('../storage/document-repo')
 
 module.exports = [{
   method: 'POST',
@@ -18,14 +17,14 @@ module.exports = [{
         'application/pdf',
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         'text/plain'
-      ],
-    },
+      ]
+    }
   },
   handler: async (request, h) => {
     const document = await processPayloadDocument(request.payload)
-
+    console.log(document)
     const id = await saveDocument(
-      document, 
+      document,
       request.headers['content-type']
     )
 
@@ -37,8 +36,8 @@ module.exports = [{
   path: '/document/{id}',
   options: {
     tags: ['api', 'document'],
-      validate: {
-        payload: Joi.object({
+    validate: {
+      payload: Joi.object({
         fileName: Joi.string().required(),
         uploadedBy: Joi.string().required(),
         documentType: Joi.string().required(),
@@ -46,14 +45,14 @@ module.exports = [{
         sourceAddress: Joi.string().required(),
         suggestedCategory: Joi.string().required(),
         userCategory: Joi.string().required(),
-        targetMinister: Joi.string().required(),
+        targetMinister: Joi.string().required()
       })
-    },
+    }
   },
   handler: async (request, h) => {
     try {
       await updateDocumentMetadata(
-        request.params.id, 
+        request.params.id,
         request.payload
       )
     } catch (err) {

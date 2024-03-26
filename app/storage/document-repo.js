@@ -36,6 +36,6 @@ const updateDocumentMetadata = async (id, metadata) => {
 }
 
 module.exports = {
-    saveDocument,
-    updateDocumentMetadata
+  saveDocument,
+  updateDocumentMetadata
 }
