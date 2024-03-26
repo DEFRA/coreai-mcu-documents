@@ -1,6 +1,6 @@
 const Joi = require('joi')
 const { processPayloadDocument } = require("../lib/document")
-const { saveDocument, updateDocumenteMetadata } = require("../storage/document-repo")
+const { saveDocument, updateDocumentMetadata } = require("../storage/document-repo")
 
 
 module.exports = [{
@@ -34,29 +34,36 @@ module.exports = [{
 },
 {
   method: 'PUT',
-  path: '/document/{uuid}',
+  path: '/document/{id}',
   options: {
     tags: ['api', 'document'],
+      validate: {
+        payload: Joi.object({
+        fileName: Joi.string().required(),
+        uploadedBy: Joi.string().required(),
+        documentType: Joi.string().required(),
+        source: Joi.string().required(),
+        sourceAddress: Joi.string().required(),
+        suggestedCategory: Joi.string().required(),
+        userCategory: Joi.string().required(),
+        targetMinister: Joi.string().required(),
+      })
+    },
   },
-  handler: (request, h) => {
+  handler: async (request, h) => {
+    try {
+      await updateDocumentMetadata(
+        request.params.id, 
+        request.payload
+      )
+    } catch (err) {
+      if (err.code === 'NotFound') {
+        return h.response().code(404).takeover()
+      }
 
-     /*
-      - To do:
+      throw err
+    }
 
-        - get / set file meta data using blob metadata
-        
-          Fields:
-            FileName
-            UploadedBy
-            DocumentType
-            Source
-            SourceAddress
-            SuggestedCategory
-            UserCategory
-            TargetMinster
-      */
-
-    console.log(`Document PUT endpoint hit with uuid ${request.params.uuid}`)
-    return h.response(`${request.params.uuid}`).code(200)
+    return h.response().code(200)
   }
 }]

@@ -21,21 +21,21 @@ const saveDocument = async (buffer, type) => {
   return id
 }
 
-// const updateDocumentMetadata = async (id, metadata) => {
-//   const blockBlobClient = documentsContainer.getBlockBlobClient(id)
+const updateDocumentMetadata = async (id, metadata) => {
+  const blockBlobClient = documentsContainer.getBlockBlobClient(id)
 
-//   if (!await blockBlobClient.exists()) {
-//     const err = new Error(`The document with ID ${id} does not exist`)
+  if (!await blockBlobClient.exists()) {
+    const err = new Error(`The document with ID ${id} does not exist`)
 
-//     err.code = 'NotFound'
+    err.code = 'NotFound'
 
-//     throw err
-//   }
+    throw err
+  }
 
-//   await blockBlobClient.setMetadata(metadata)
-// }
+  await blockBlobClient.setMetadata(metadata)
+}
 
 module.exports = {
     saveDocument,
-    // updateDocumentMetadata
+    updateDocumentMetadata
 }
