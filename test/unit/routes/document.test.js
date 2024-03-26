@@ -2,12 +2,12 @@ const { saveDocument } = require('../../../app/storage/document-repo')
 const { v4: uuidv4 } = require('uuid')
 
 // Mock dependencies
-jest.mock('./blob-service-client')
-const { blobServiceClient } = require('./blob-service-client')
+jest.mock('../../../app/storage/blob-service-client')
+const { blobServiceClient } = require('../../../app/storage/blob-service-client')
 
 // Mock processPayloadDocument function
-jest.mock('../lib/document')
-const { processPayloadDocument } = require('../lib/document')
+jest.mock('../../../app/lib/document')
+const { processPayloadDocument } = require('../../../app/lib/document')
 
 describe('saveDocument', () => {
   test('should save a document with allowed content types', async () => {
