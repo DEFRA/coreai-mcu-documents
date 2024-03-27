@@ -38,7 +38,6 @@ describe('PUT /document/{id}', () => {
     })
 
     expect(response.statusCode).toBe(200)
-    // You can add more assertions here based on what you expect
   })
 
   // test('responds with 404 when document not found', async () => {
@@ -54,6 +53,4 @@ describe('PUT /document/{id}', () => {
 
   //   expect(response.statusCode).toBe(404)
   // })
-
-  // Add more tests as needed
 })
