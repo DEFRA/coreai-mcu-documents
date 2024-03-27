@@ -40,17 +40,24 @@ describe('PUT /document/{id}', () => {
     expect(response.statusCode).toBe(200)
   })
 
-  // test('responds with 404 when document not found', async () => {
-  //   updateDocumentMetadata.mockRejectedValue(Object.assign(new Error('Not Found'), { code: 'NotFound' }))
+  test('responds with 404 when document not found', async () => {
+    updateDocumentMetadata.mockRejectedValue(Object.assign(new Error('Not Found'), { code: 'NotFound' }))
 
-  //   const response = await server.inject({
-  //     method: 'PUT',
-  //     url: '/document/invalid-id',
-  //     payload: {
-  //       // your payload here
-  //     }
-  //   })
+    const response = await server.inject({
+      method: 'PUT',
+      url: '/document/invalid-id',
+      payload: {
+        fileName: 'TestFile.pdf',
+        uploadedBy: 'TestUser',
+        documentType: 'Report',
+        source: 'Email',
+        sourceAddress: 'test@example.com',
+        suggestedCategory: 'Finance',
+        userCategory: 'Internal',
+        targetMinister: 'Some Minister'
+      }
+    })
 
-  //   expect(response.statusCode).toBe(404)
-  // })
+    expect(response.statusCode).toBe(404)
+  })
 })
