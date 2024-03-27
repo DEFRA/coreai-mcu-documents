@@ -3,9 +3,9 @@ const { v4: uuidv4 } = require('uuid')
 const { blobServiceClient } = require('./blob-service-client')
 const config = require('../config/storage')
 
-const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
-
 const saveDocument = async (buffer, type) => {
+  const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
+
   const id = uuidv4()
 
   const blockBlobClient = documentsContainer.getBlockBlobClient(id)
@@ -22,6 +22,7 @@ const saveDocument = async (buffer, type) => {
 }
 
 const updateDocumentMetadata = async (id, metadata) => {
+  const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
   const blockBlobClient = documentsContainer.getBlockBlobClient(id)
 
   if (!await blockBlobClient.exists()) {
