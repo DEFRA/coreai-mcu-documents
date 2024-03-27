@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require('uuid')
-
 const { blobServiceClient } = require('./blob-service-client')
+const { mapMetadataToBlob } = require('../mappers/blob-metadata')
 const config = require('../config/storage')
 
 const saveDocument = async (buffer, type) => {
@@ -33,7 +33,9 @@ const updateDocumentMetadata = async (id, metadata) => {
     throw err
   }
 
-  await blockBlobClient.setMetadata(metadata)
+  const mapped = mapMetadataToBlob(metadata)
+
+  await blockBlobClient.setMetadata(mapped)
 }
 
 module.exports = {
