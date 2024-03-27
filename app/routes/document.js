@@ -1,12 +1,12 @@
 const Joi = require('joi')
 const { processPayloadDocument } = require('../lib/document')
-const { saveDocument, updateDocumentMetadata } = require('../storage/document-repo')
+const { saveDocument, updateDocumentMetadata } = require('../storage/documents-repo')
 
 module.exports = [{
   method: 'POST',
-  path: '/document',
+  path: '/documents',
   options: {
-    tags: ['api', 'document'],
+    tags: ['api', 'documents'],
     payload: {
       maxBytes: (50 * 1024 * 1024) + 250,
       timeout: false,
@@ -32,9 +32,9 @@ module.exports = [{
 },
 {
   method: 'PUT',
-  path: '/document/{id}',
+  path: '/documents/{id}',
   options: {
-    tags: ['api', 'document'],
+    tags: ['api', 'documents'],
     validate: {
       payload: Joi.object({
         fileName: Joi.string().required(),

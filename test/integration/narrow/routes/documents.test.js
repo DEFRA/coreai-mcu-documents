@@ -1,9 +1,9 @@
-const { updateDocumentMetadata, saveDocument } = require('../../../../app/storage/document-repo')
+const { updateDocumentMetadata, saveDocument } = require('../../../../app/storage/documents-repo')
 const { processPayloadDocument } = require('../../../../app/lib/document')
 const createServer = require('../../../../app/server')
 const { v4: uuidv4 } = require('uuid')
 
-jest.mock('../../../../app/storage/document-repo', () => ({
+jest.mock('../../../../app/storage/documents-repo', () => ({
   updateDocumentMetadata: jest.fn(),
   saveDocument: jest.fn()
 }))
@@ -12,7 +12,7 @@ jest.mock('../../../../app/lib/document', () => ({
   processPayloadDocument: jest.fn()
 }))
 
-describe('/document', () => {
+describe('/documents', () => {
   let server
 
   beforeEach(async () => {
@@ -24,7 +24,7 @@ describe('/document', () => {
     await server.stop()
   })
 
-  describe('POST /document', () => {
+  describe('POST /documents', () => {
     test('responds with 201 and saves document when a valid PDF is provided', async () => {
       const validPDFBuffer = Buffer.from('PDF CONTENTS')
       const expectedId = uuidv4()
@@ -34,7 +34,7 @@ describe('/document', () => {
 
       const response = await server.inject({
         method: 'POST',
-        url: '/document',
+        url: '/documents',
         payload: validPDFBuffer,
         headers: {
           'content-type': 'application/pdf'
@@ -52,7 +52,7 @@ describe('/document', () => {
 
       const response = await server.inject({
         method: 'POST',
-        url: '/document',
+        url: '/documents',
         payload: {},
         headers: {
           'content-type': 'image/x-png'
@@ -63,11 +63,11 @@ describe('/document', () => {
     })
   })
 
-  describe('PUT /document/{id}', () => {
+  describe('PUT /documents/{id}', () => {
     let id
 
     beforeEach(async () => {
-      id = '7f1dd7ac-96ed-4746-a406-b32508ad8123'
+      id = uuidv4()
     })
 
     afterEach(async () => {
@@ -79,7 +79,7 @@ describe('/document', () => {
 
       const response = await server.inject({
         method: 'PUT',
-        url: `/document/${id}`,
+        url: `/documents/${id}`,
         payload: {
           fileName: 'TestFile.pdf',
           uploadedBy: 'TestUser',
@@ -100,7 +100,7 @@ describe('/document', () => {
 
       const response = await server.inject({
         method: 'PUT',
-        url: '/document/invalid-id',
+        url: '/documents/invalid-id',
         payload: {
           fileName: 'TestFile.pdf',
           uploadedBy: 'TestUser',

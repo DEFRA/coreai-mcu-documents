@@ -14,8 +14,8 @@ jest.mock('../../../app/config/storage', () => ({
   documentsContainer: 'test-documents-container'
 }))
 
-describe('document-repo', () => {
-  const { saveDocument } = require('../../../app/storage/document-repo')
+describe('documents-repo', () => {
+  const { saveDocument } = require('../../../app/storage/documents-repo')
 
   const expectedId = 'some-uuid'
 
