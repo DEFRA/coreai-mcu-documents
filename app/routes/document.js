@@ -22,7 +22,6 @@ module.exports = [{
   },
   handler: async (request, h) => {
     const document = await processPayloadDocument(request.payload)
-    console.log(document)
     const id = await saveDocument(
       document,
       request.headers['content-type']
