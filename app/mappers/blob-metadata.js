@@ -13,7 +13,6 @@ const map = (metadata, lookup) => {
   const obj = {}
 
   for (const key in metadata) {
-    console.log(`${key} -> ${lookup[key]}`)
     obj[lookup[key]] = metadata[key]
   }
 
