@@ -8,7 +8,20 @@ const getDocuments = async () => {
 
   let blobs = []
 
-  for await (const blob of documentsContainer.listBlobsFlat()) {
+  const listOptions = {
+    includeCopy: false,
+    includeDeleted: false,
+    includeDeletedWithVersions: false,
+    includeLegalHold: false,
+    includeMetadata: false,
+    includeSnapshots: true,
+    includeTags: true,
+    includeUncommitedBlobs: false,
+    includeVersions: false,
+    prefix: ''         
+  }
+
+  for await (const blob of documentsContainer.listBlobsFlat(listOptions)) {
     blobs.push(blob)
   }
 
