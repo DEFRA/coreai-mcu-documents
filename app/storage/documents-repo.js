@@ -3,9 +3,9 @@ const { blobServiceClient } = require('./blob-service-client')
 const { mapMetadataToBlob } = require('../mappers/blob-metadata')
 const config = require('../config/storage')
 
-const getDocuments = async () => {
-  const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
+const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
 
+const getDocuments = async () => {
   const blobs = []
 
   const listOptions = {
@@ -29,7 +29,6 @@ const getDocuments = async () => {
 }
 
 const getDocument = async (id) => {
-  const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
   const blobClient = documentsContainer.getBlobClient(id)
 
   const documentBuffer = await blobClient.downloadToBuffer()
@@ -37,7 +36,6 @@ const getDocument = async (id) => {
 }
 
 const getDocumentMetadata = async (id) => {
-  const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
   const blobClient = documentsContainer.getBlobClient(id)
 
   const { metadata, contentType } = await blobClient.getProperties()
@@ -49,8 +47,6 @@ const getDocumentMetadata = async (id) => {
 }
 
 const saveDocument = async (buffer, type) => {
-  const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
-
   const id = uuidv4()
 
   const blockBlobClient = documentsContainer.getBlockBlobClient(id)
@@ -67,7 +63,6 @@ const saveDocument = async (buffer, type) => {
 }
 
 const updateDocumentMetadata = async (id, metadata) => {
-  const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
   const blockBlobClient = documentsContainer.getBlockBlobClient(id)
 
   if (!await blockBlobClient.exists()) {
