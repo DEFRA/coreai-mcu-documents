@@ -30,23 +30,40 @@ const getDocuments = async () => {
 
 // to do
 const getDocument = async (id) => {
-  const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
+  // const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
+
+  const blobClient = blobServiceClient.getBlobClient(id)
+
+    try {
+        // Get blob properties including metadata
+        const blobProperties = await blobClient.getProperties()
+
+        // Access blob metadata
+        const metadata = blobProperties.metadata
+
+        console.log("Blob Metadata:")
+        console.log(metadata)
+    } catch (error) {
+        console.error("Error fetching blob metadata:", error)
+    }
+
   // const document = blobServiceClient.
   return { id: `${id}` }
 }
 
-// to do
 const getDocumentMetadata = async (id) => {
-  // const documentMetaData = blobServiceClient.
-  return {
-    file_name: 'TestFile.pdf',
-    uploaded_by: 'TestUser',
-    document_type: 'Report',
-    source: 'Email',
-    source_address: 'test@example.com',
-    suggested_category: 'Finance',
-    user_category: 'Internal',
-    target_minister: 'Some Minister'
+  const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
+  const blobClient = documentsContainer.getBlobClient(id)
+
+  try {
+    const { metadata, contentType } = await blobClient.getProperties()
+
+    return {
+      metadata,
+      contentType
+    }
+  } catch (error) {
+      console.error("Error getting blob properties:", error.message);
   }
 }
 
