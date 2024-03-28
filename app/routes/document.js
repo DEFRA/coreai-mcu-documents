@@ -1,8 +1,66 @@
 const Joi = require('joi')
 const { processPayloadDocument } = require('../lib/document')
-const { saveDocument, updateDocumentMetadata } = require('../storage/documents-repo')
+const { 
+  getDocuments, 
+  getDocument, 
+  getDocumentMetadata,
+  saveDocument, 
+  updateDocumentMetadata 
+} = require('../storage/documents-repo')
 
 module.exports = [{
+  method: 'GET',
+  path: '/documents',
+  options: {
+    tags: ['api', 'documents']
+  },
+  handler: async (request, h) => {
+    const documents = await getDocuments()
+    console.log(documents)
+
+    return h.response(documents).code(201)
+  }
+},
+{
+  method: 'GET',
+  path: '/documents/{id}',
+  options: {
+    tags: ['api', 'documents'],
+    validate: {
+      params: Joi.object({
+        id: Joi.string().uuid().required()
+      })
+    }
+  },
+  handler: async (request, h) => {
+    const document = await getDocument(request.params.id)
+    console.log(document)
+
+    return h.response(document).code(201)
+  }
+},
+{
+  method: 'GET',
+  path: '/documents/{id}/metadata',
+  options: {
+    tags: ['api', 'documents'],
+    validate: {
+      params: Joi.object({
+        id: Joi.string().uuid().required()
+      })
+    }
+  },
+  handler: async (request, h) => {
+    // to do 
+    // add logic
+
+    const documentMetadata = await getDocumentMetadata(request.params.id)
+    console.log(documentMetadata)
+
+    return h.response(documentMetadata).code(201)
+  }
+},
+{
   method: 'POST',
   path: '/documents',
   options: {
