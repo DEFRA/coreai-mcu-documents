@@ -15,8 +15,14 @@ module.exports = [{
     tags: ['api', 'documents']
   },
   handler: async (request, h) => {
-    const documents = await getDocuments()
-    console.log(documents)
+
+    let documents
+
+    try {
+      documents = await getDocuments()
+    } catch (err) {
+      throw err
+    }
 
     return h.response(documents).code(201)
   }
@@ -33,8 +39,15 @@ module.exports = [{
     }
   },
   handler: async (request, h) => {
-    const document = await getDocument(request.params.id)
-    console.log(document)
+    let document
+
+    try {
+      document = await getDocument(
+        request.params.id
+      )
+    } catch (err) {
+      throw err
+    }
 
     return h.response(document).code(201)
   }
@@ -51,11 +64,15 @@ module.exports = [{
     }
   },
   handler: async (request, h) => {
-    // to do 
-    // add logic
+    let documentMetadata
 
-    const documentMetadata = await getDocumentMetadata(request.params.id)
-    console.log(documentMetadata)
+    try {
+      documentMetadata = await getDocumentMetadata(
+        request.params.id
+      )
+    } catch (err) {
+      throw err
+    }
 
     return h.response(documentMetadata).code(201)
   }
