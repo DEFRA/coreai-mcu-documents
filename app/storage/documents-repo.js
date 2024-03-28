@@ -28,27 +28,16 @@ const getDocuments = async () => {
   return blobs
 }
 
-// to do
 const getDocument = async (id) => {
-  // const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
+  const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
+  const blobClient = documentsContainer.getBlobClient(id)
 
-  const blobClient = blobServiceClient.getBlobClient(id)
-
-    try {
-        // Get blob properties including metadata
-        const blobProperties = await blobClient.getProperties()
-
-        // Access blob metadata
-        const metadata = blobProperties.metadata
-
-        console.log("Blob Metadata:")
-        console.log(metadata)
-    } catch (error) {
-        console.error("Error fetching blob metadata:", error)
-    }
-
-  // const document = blobServiceClient.
-  return { id: `${id}` }
+  try {
+    const documentBuffer = await blobClient.downloadToBuffer()
+    return documentBuffer
+  } catch (err) {
+    throw err
+  }
 }
 
 const getDocumentMetadata = async (id) => {
@@ -62,8 +51,8 @@ const getDocumentMetadata = async (id) => {
       metadata,
       contentType
     }
-  } catch (error) {
-      console.error("Error getting blob properties:", error.message);
+  } catch (err) {
+    throw err
   }
 }
 
