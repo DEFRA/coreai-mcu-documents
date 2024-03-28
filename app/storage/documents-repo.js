@@ -6,7 +6,7 @@ const config = require('../config/storage')
 const getDocuments = async () => {
   const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
 
-  let blobs = []
+  const blobs = []
 
   const listOptions = {
     includeCopy: false,
@@ -18,7 +18,7 @@ const getDocuments = async () => {
     includeTags: true,
     includeUncommitedBlobs: false,
     includeVersions: false,
-    prefix: ''         
+    prefix: ''
   }
 
   for await (const blob of documentsContainer.listBlobsFlat(listOptions)) {
@@ -32,27 +32,19 @@ const getDocument = async (id) => {
   const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
   const blobClient = documentsContainer.getBlobClient(id)
 
-  try {
-    const documentBuffer = await blobClient.downloadToBuffer()
-    return documentBuffer
-  } catch (err) {
-    throw err
-  }
+  const documentBuffer = await blobClient.downloadToBuffer()
+  return documentBuffer
 }
 
 const getDocumentMetadata = async (id) => {
   const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
   const blobClient = documentsContainer.getBlobClient(id)
 
-  try {
-    const { metadata, contentType } = await blobClient.getProperties()
+  const { metadata, contentType } = await blobClient.getProperties()
 
-    return {
-      metadata,
-      contentType
-    }
-  } catch (err) {
-    throw err
+  return {
+    metadata,
+    contentType
   }
 }
 

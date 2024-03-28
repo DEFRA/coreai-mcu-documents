@@ -1,11 +1,11 @@
 const Joi = require('joi')
 const { processPayloadDocument } = require('../lib/document')
-const { 
-  getDocuments, 
-  getDocument, 
+const {
+  getDocuments,
+  getDocument,
   getDocumentMetadata,
-  saveDocument, 
-  updateDocumentMetadata 
+  saveDocument,
+  updateDocumentMetadata
 } = require('../storage/documents-repo')
 
 module.exports = [{
@@ -15,15 +15,7 @@ module.exports = [{
     tags: ['api', 'documents']
   },
   handler: async (request, h) => {
-
-    let documents
-
-    try {
-      documents = await getDocuments()
-    } catch (err) {
-      throw err
-    }
-
+    const documents = await getDocuments()
     return h.response(documents).code(201)
   }
 },
@@ -39,15 +31,9 @@ module.exports = [{
     }
   },
   handler: async (request, h) => {
-    let document
-
-    try {
-      document = await getDocument(
-        request.params.id
-      )
-    } catch (err) {
-      throw err
-    }
+    const document = await getDocument(
+      request.params.id
+    )
 
     return h.response(document).code(201)
   }
@@ -64,15 +50,9 @@ module.exports = [{
     }
   },
   handler: async (request, h) => {
-    let documentMetadata
-
-    try {
-      documentMetadata = await getDocumentMetadata(
-        request.params.id
-      )
-    } catch (err) {
-      throw err
-    }
+    const documentMetadata = await getDocumentMetadata(
+      request.params.id
+    )
 
     return h.response(documentMetadata).code(201)
   }
