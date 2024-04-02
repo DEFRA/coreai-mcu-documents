@@ -12,10 +12,17 @@ module.exports = [{
   method: 'GET',
   path: '/documents',
   options: {
-    tags: ['api', 'documents']
+    tags: ['api', 'documents'],
+    validate: {
+      query: Joi.object({
+        orderBy: Joi.string().valid('lastModified', 'createdOn').default('lastModified'),
+        orderByDirection: Joi.string().valid('Asc', 'Desc').default('Desc')
+      })
+    },
   },
   handler: async (request, h) => {
-    const documents = await getDocuments()
+    const { orderBy, orderByDirection } = request.query
+    const documents = await getDocuments(orderBy, orderByDirection)
     return h.response(documents).code(201)
   }
 },
