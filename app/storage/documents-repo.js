@@ -7,7 +7,7 @@ const documentsContainer = blobServiceClient.getContainerClient(config.documents
 
 const getDocuments = async (orderBy = 'lastModified ', orderByDirection = 'Desc') => {
   const blobs = []
-console.log(orderBy)
+
   const listOptions = {
     includeCopy: false,
     includeDeleted: false,
