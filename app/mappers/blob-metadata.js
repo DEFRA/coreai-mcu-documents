@@ -9,6 +9,17 @@ const blob = {
   targetMinister: 'target_minister'
 }
 
+const base = {
+  file_name: 'fileName',
+  uploaded_by: 'uploadedBy',
+  document_type: 'documentType',
+  source: 'source',
+  source_address: 'sourceAddress',
+  suggested_category: 'suggestedCategory',
+  user_category: 'userCategory',
+  target_minister: 'targetMinister'
+}
+
 const map = (metadata, lookup) => {
   const obj = {}
 
@@ -20,7 +31,9 @@ const map = (metadata, lookup) => {
 }
 
 const mapMetadataToBlob = (metadata) => map(metadata, blob)
+const mapMetadataToBase = (metadata) => map(metadata, base)
 
 module.exports = {
-  mapMetadataToBlob
+  mapMetadataToBlob,
+  mapMetadataToBase
 }
