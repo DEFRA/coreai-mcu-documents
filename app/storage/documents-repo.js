@@ -5,7 +5,7 @@ const config = require('../config/storage')
 
 const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
 
-const getDocuments = async () => {
+const getDocuments = async (orderBy = 'lastModified ', orderByDirection = 'Desc') => {
   const blobs = []
 
   const listOptions = {
@@ -28,6 +28,17 @@ const getDocuments = async () => {
 
     blobs.push(blob)
   }
+
+  blobs.sort((a, b) => {
+    const aValue = new Date(a.properties[orderBy])
+    const bValue = new Date(b.properties[orderBy])
+
+    if (orderByDirection === 'Desc') {
+      return bValue - aValue
+    } else {
+      return aValue - bValue
+    }
+  })
 
   return blobs
 }
