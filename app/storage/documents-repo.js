@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require('uuid')
 const { blobServiceClient } = require('./blob-service-client')
-const { mapMetadataToBlob } = require('../mappers/blob-metadata')
+const { mapMetadataToBlob, mapMetadataToBase } = require('../mappers/blob-metadata')
 const config = require('../config/storage')
 
 const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
@@ -22,6 +22,10 @@ const getDocuments = async (orderBy = 'lastModified ', orderByDirection = 'Desc'
   }
 
   for await (const blob of documentsContainer.listBlobsFlat(listOptions)) {
+    const metadata = mapMetadataToBase(blob.metadata)
+
+    blob.metadata = metadata
+
     blobs.push(blob)
   }
 
@@ -43,17 +47,22 @@ const getDocument = async (id) => {
   const blobClient = documentsContainer.getBlobClient(id)
 
   const documentBuffer = await blobClient.downloadToBuffer()
+
   return documentBuffer
 }
 
 const getDocumentMetadata = async (id) => {
   const blobClient = documentsContainer.getBlobClient(id)
 
-  const { metadata, contentType } = await blobClient.getProperties()
+  const properties = await blobClient.getProperties()
+  const metadata = mapMetadataToBase(properties.metadata)
+
+  delete properties.metadata
 
   return {
-    metadata,
-    contentType
+    name: id,
+    properties,
+    metadata
   }
 }
 
