@@ -2,6 +2,7 @@ const { v4: uuidv4 } = require('uuid')
 const { blobServiceClient } = require('./blob-service-client')
 const { mapMetadataToBlob, mapMetadataToBase } = require('../mappers/blob-metadata')
 const config = require('../config/storage')
+const { loadDocument } = require('../lib/document-loader')
 
 const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
 
@@ -49,6 +50,42 @@ const getDocument = async (id) => {
   const documentBuffer = await blobClient.downloadToBuffer()
 
   return documentBuffer
+}
+
+const getDocumentBuffer = async (id) => {
+  const blobClient = documentsContainer.getBlockBlobClient(id)
+
+  if (!await blobClient.exists()) {
+    const err = new Error(`The document with ID ${id} does not exist`)
+
+    err.code = 'NotFound'
+
+    throw err
+  }
+
+  const buffer = await blobClient.downloadToBuffer()
+  const properties = await blobClient.getProperties()
+
+  const metadata = mapMetadataToBase(properties.metadata)
+  const contentType = properties.contentType
+
+  return {
+    buffer,
+    metadata,
+    contentType
+  }
+}
+
+const getDocumentContents = async (id) => {
+  const document = await getDocumentBuffer(id)
+  const texts = await loadDocument(document)
+
+  let contents = ''
+  for (const text of texts) {
+    contents += text.pageContent + '\r\n\r\n'
+  }
+
+  return contents
 }
 
 const getDocumentMetadata = async (id) => {
@@ -101,6 +138,7 @@ const updateDocumentMetadata = async (id, metadata) => {
 module.exports = {
   getDocuments,
   getDocument,
+  getDocumentContents,
   getDocumentMetadata,
   saveDocument,
   updateDocumentMetadata

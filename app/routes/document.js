@@ -3,6 +3,7 @@ const { processPayloadDocument } = require('../lib/document')
 const {
   getDocuments,
   getDocument,
+  getDocumentContents,
   getDocumentMetadata,
   saveDocument,
   updateDocumentMetadata
@@ -43,6 +44,25 @@ module.exports = [{
     )
 
     return h.response(document).code(201)
+  }
+},
+{
+  method: 'GET',
+  path: '/documents/{id}/contents',
+  options: {
+    tags: ['api', 'documents'],
+    validate: {
+      params: Joi.object({
+        id: Joi.string().uuid().required()
+      })
+    }
+  },
+  handler: async (request, h) => {
+    const documentContents = await getDocumentContents(
+      request.params.id
+    )
+
+    return h.response(documentContents).code(201)
   }
 },
 {
