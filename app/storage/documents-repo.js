@@ -78,12 +78,7 @@ const getDocumentBuffer = async (id) => {
 
 const getDocumentContents = async (id) => {
   const document = await getDocumentBuffer(id)
-  const texts = await loadDocument(document)
-
-  let contents = ''
-  for (const text of texts) {
-    contents += text.pageContent + '\r\n\r\n'
-  }
+  const contents = await loadDocument(document)
 
   return contents
 }

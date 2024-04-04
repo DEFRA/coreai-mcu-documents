@@ -1,5 +1,3 @@
-const { RecursiveCharacterTextSplitter } = require('langchain/text_splitter')
-
 const { DOC, PDF, DOCX, TXT } = require('../../constants/document-types')
 const loadDocx = require('./docx')
 const loadPdf = require('./pdf')
@@ -34,12 +32,12 @@ const loadDocument = async (document) => {
     }
   }))
 
-  const splitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 1000,
-    chunkOverlap: 200
-  })
+  let contents = ''
+  for (const doc of docsWithMetadata) {
+    contents += doc.pageContent + '\r\n\r\n'
+  }
 
-  return splitter.splitDocuments(docsWithMetadata)
+  return (contents + ' ').trim()
 }
 
 module.exports = {
