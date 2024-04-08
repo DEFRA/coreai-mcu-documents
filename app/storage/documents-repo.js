@@ -6,6 +6,12 @@ const { loadDocument } = require('../lib/document-loader')
 
 const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
 
+const initialiseContainers = async () => {
+  console.log('Initialising containers...')
+  await documentsContainer.createIfNotExists()
+  console.log('Containers initialised')
+}
+
 const getDocuments = async (orderBy = 'lastModified ', orderByDirection = 'Desc') => {
   const blobs = []
 
@@ -131,6 +137,7 @@ const updateDocumentMetadata = async (id, metadata) => {
 }
 
 module.exports = {
+  initialiseContainers,
   getDocuments,
   getDocument,
   getDocumentContents,
