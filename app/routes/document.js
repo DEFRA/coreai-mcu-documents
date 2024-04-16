@@ -19,7 +19,7 @@ module.exports = [{
         orderBy: Joi.string().valid('lastModified', 'createdOn').default('lastModified'),
         orderByDirection: Joi.string().valid('Asc', 'Desc').default('Desc')
       })
-    },
+    }
   },
   handler: async (request, h) => {
     const { orderBy, orderByDirection } = request.query
