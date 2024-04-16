@@ -1,8 +1,8 @@
 const { v4: uuidv4 } = require('uuid')
 const { blobServiceClient } = require('./blob-service-client')
-const { mapMetadataToBlob, mapMetadataToBase } = require('../mappers/blob-metadata')
 const config = require('../config/storage')
 const { loadDocument } = require('../lib/document-loader')
+const { updateMetadata, getMetadata } = require('./metadata-repo')
 
 const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
 
@@ -29,8 +29,7 @@ const getDocuments = async (orderBy = 'lastModified ', orderByDirection = 'Desc'
   }
 
   for await (const blob of documentsContainer.listBlobsFlat(listOptions)) {
-    const metadata = mapMetadataToBase(blob.metadata)
-
+    const metadata = await getMetadata('MCU', blob.name)
     blob.metadata = metadata
 
     blobs.push(blob)
@@ -72,7 +71,7 @@ const getDocumentBuffer = async (id) => {
   const buffer = await blobClient.downloadToBuffer()
   const properties = await blobClient.getProperties()
 
-  const metadata = mapMetadataToBase(properties.metadata)
+  const metadata = await getMetadata('MCU', id)
   const contentType = properties.contentType
 
   return {
@@ -93,7 +92,7 @@ const getDocumentMetadata = async (id) => {
   const blobClient = documentsContainer.getBlobClient(id)
 
   const properties = await blobClient.getProperties()
-  const metadata = mapMetadataToBase(properties.metadata)
+  const metadata = await getMetadata('MCU', id)
 
   delete properties.metadata
 
@@ -131,9 +130,7 @@ const updateDocumentMetadata = async (id, metadata) => {
     throw err
   }
 
-  const mapped = mapMetadataToBlob(metadata)
-
-  await blockBlobClient.setMetadata(mapped)
+  await updateMetadata('MCU', id, metadata)
 }
 
 module.exports = {
