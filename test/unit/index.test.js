@@ -7,8 +7,8 @@ jest.mock('../../app/server', () =>
     }
   })
 )
-jest.mock('../../app/storage/blob-service-client')
-jest.mock('../../app/storage/table-service-client')
+jest.mock('../../app/storage/documents-repo')
+jest.mock('../../app/storage/metadata-repo')
 const createServer = require('../../app/server')
 
 describe('Server setup', () => {
