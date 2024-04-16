@@ -4,7 +4,8 @@ const schema = Joi.object({
   useConnectionString: Joi.bool().default(false),
   connectionString: Joi.string().when('useConnectionString', { is: true, then: Joi.required(), otherwise: Joi.allow('').optional() }),
   storageAccount: Joi.string().required(),
-  documentsContainer: Joi.string().default('documents')
+  documentsContainer: Joi.string().default('documents'),
+  metadataTable: Joi.string().default('documentmetadata')
 })
 
 const config = {
