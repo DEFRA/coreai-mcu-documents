@@ -24,7 +24,7 @@ module.exports = [{
   handler: async (request, h) => {
     const { orderBy, orderByDirection } = request.query
     const documents = await getDocuments(orderBy, orderByDirection)
-    return h.response(documents).code(201)
+    return h.response(documents).code(200)
   }
 },
 {
@@ -43,7 +43,7 @@ module.exports = [{
       request.params.id
     )
 
-    return h.response(document).code(201)
+    return h.response(document).code(200)
   }
 },
 {
@@ -62,7 +62,7 @@ module.exports = [{
       request.params.id
     )
 
-    return h.response(documentContents).code(201)
+    return h.response(documentContents).code(200)
   }
 },
 {
@@ -81,7 +81,7 @@ module.exports = [{
       request.params.id
     )
 
-    return h.response(documentMetadata).code(201)
+    return h.response(documentMetadata).code(200)
   }
 },
 {
