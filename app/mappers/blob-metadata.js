@@ -4,9 +4,14 @@ const blob = {
   documentType: 'document_type',
   source: 'source',
   sourceAddress: 'source_address',
-  suggestedCategory: 'suggested_category',
   userCategory: 'user_category',
-  targetMinister: 'target_minister'
+  targetMinister: 'target_minister',
+  suggestedCategory: 'suggested_category',
+  author: 'author',
+  summary: 'summary',
+  keyPoints: 'key_points',
+  keyFacts: 'key_facts',
+  sentiment: 'sentiment'
 }
 
 const base = {
@@ -15,9 +20,14 @@ const base = {
   document_type: 'documentType',
   source: 'source',
   source_address: 'sourceAddress',
-  suggested_category: 'suggestedCategory',
   user_category: 'userCategory',
-  target_minister: 'targetMinister'
+  target_minister: 'targetMinister',
+  suggested_category: 'suggestedCategory',
+  author: 'author',
+  summary: 'summary',
+  key_points: 'keyPoints',
+  key_facts: 'keyFacts',
+  sentiment: 'sentiment'
 }
 
 const map = (metadata, lookup) => {

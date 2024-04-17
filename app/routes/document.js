@@ -124,9 +124,14 @@ module.exports = [{
         documentType: Joi.string().required(),
         source: Joi.string().required(),
         sourceAddress: Joi.string().required(),
-        suggestedCategory: Joi.string().required(),
         userCategory: Joi.string().required(),
-        targetMinister: Joi.string().required()
+        targetMinister: Joi.string().required(),
+        suggestedCategory: Joi.string().optional(),
+        author: Joi.string().optional(),
+        summary: Joi.string().optional(),
+        keyPoints: Joi.array().items(Joi.string()).optional(),
+        keyFacts: Joi.array().items(Joi.string()).optional(),
+        sentiment: Joi.string().optional()
       })
     }
   },

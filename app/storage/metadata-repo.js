@@ -10,14 +10,21 @@ const initialiseTables = async () => {
 
 const enrichEntity = (project, docId, metadata) => {
   return {
-    partitionKey: project,
+    partitionKey: project.toUpperCase(),
     rowKey: docId,
     ...metadata
   }
 }
 
 const updateMetadata = async (project, docId, metadata) => {
-  const mapped = mapMetadataToBlob(metadata)
+  const existing = await getMetadata(project, docId)
+  
+  const update = {
+    ...existing,
+    ...metadata
+  }
+
+  const mapped = mapMetadataToBlob(update)
   const enriched = enrichEntity(project, docId, mapped)
 
   await tableClient.upsertEntity(enriched, 'Replace')
