@@ -129,8 +129,8 @@ module.exports = [{
         suggestedCategory: Joi.string().optional(),
         author: Joi.string().optional(),
         summary: Joi.string().optional(),
-        keyPoints: Joi.array().items(Joi.string()).optional(),
-        keyFacts: Joi.array().items(Joi.string()).optional(),
+        keyPoints: Joi.array().items(Joi.string()).default([]),
+        keyFacts: Joi.array().items(Joi.string()).default([]),
         sentiment: Joi.string().optional()
       })
     }

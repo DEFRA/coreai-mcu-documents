@@ -17,16 +17,15 @@ const enrichEntity = (project, docId, metadata) => {
 }
 
 const updateMetadata = async (project, docId, metadata) => {
-  const existing = await getMetadata(project, docId)
-
   const mapped = {
-    ...existing,
-    ...mapMetadataToBlob(metadata)
+    ...mapMetadataToBlob(metadata),
+    key_points: JSON.stringify(metadata.keyPoints),
+    key_facts: JSON.stringify(metadata.keyFacts)
   }
 
   const enriched = enrichEntity(project, docId, mapped)
 
-  await tableClient.upsertEntity(enriched, 'Replace')
+  await tableClient.upsertEntity(enriched, 'Merge')
 }
 
 const getMetadata = async (project, docId) => {
@@ -42,7 +41,13 @@ const getMetadata = async (project, docId) => {
     throw err
   }
 
-  return mapMetadataToBase(metadata)
+  const mapped = {
+    ...mapMetadataToBase(metadata),
+    keyPoints: JSON.parse(metadata.key_points),
+    keyFacts: JSON.parse(metadata.key_facts)
+  }
+
+  return mapped
 }
 
 module.exports = {
