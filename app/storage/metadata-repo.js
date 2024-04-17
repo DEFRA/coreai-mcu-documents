@@ -18,13 +18,12 @@ const enrichEntity = (project, docId, metadata) => {
 
 const updateMetadata = async (project, docId, metadata) => {
   const existing = await getMetadata(project, docId)
-  
-  const update = {
+
+  const mapped = {
     ...existing,
-    ...metadata
+    ...mapMetadataToBlob(update)
   }
 
-  const mapped = mapMetadataToBlob(update)
   const enriched = enrichEntity(project, docId, mapped)
 
   await tableClient.upsertEntity(enriched, 'Replace')
