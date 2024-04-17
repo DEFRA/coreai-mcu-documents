@@ -41,10 +41,14 @@ const getMetadata = async (project, docId) => {
     throw err
   }
 
-  const mapped = {
-    ...mapMetadataToBase(metadata),
-    keyPoints: JSON.parse(metadata.key_points),
-    keyFacts: JSON.parse(metadata.key_facts)
+  const mapped = mapMetadataToBase(metadata)
+
+  if (metadata.key_points) {
+    mapped.keyPoints = JSON.parse(metadata.key_points)
+  }
+
+  if (metadata.key_facts) {
+    mapped.keyFacts = JSON.parse(metadata.key_facts)
   }
 
   return mapped
