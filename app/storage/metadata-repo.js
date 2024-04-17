@@ -21,7 +21,7 @@ const updateMetadata = async (project, docId, metadata) => {
 
   const mapped = {
     ...existing,
-    ...mapMetadataToBlob(update)
+    ...mapMetadataToBlob(metadata)
   }
 
   const enriched = enrichEntity(project, docId, mapped)
