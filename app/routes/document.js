@@ -119,14 +119,19 @@ module.exports = [{
     tags: ['api', 'documents'],
     validate: {
       payload: Joi.object({
-        fileName: Joi.string().required(),
-        uploadedBy: Joi.string().required(),
-        documentType: Joi.string().required(),
-        source: Joi.string().required(),
-        sourceAddress: Joi.string().required(),
-        suggestedCategory: Joi.string().required(),
-        userCategory: Joi.string().required(),
-        targetMinister: Joi.string().required()
+        fileName: Joi.string().optional(),
+        uploadedBy: Joi.string().optional(),
+        documentType: Joi.string().optional(),
+        source: Joi.string().optional(),
+        sourceAddress: Joi.string().optional(),
+        userCategory: Joi.string().optional(),
+        targetMinister: Joi.string().optional(),
+        suggestedCategory: Joi.string().optional(),
+        author: Joi.string().optional(),
+        summary: Joi.string().optional(),
+        keyPoints: Joi.array().items(Joi.string()).default([]),
+        keyFacts: Joi.array().items(Joi.string()).default([]),
+        sentiment: Joi.string().optional()
       })
     }
   },
