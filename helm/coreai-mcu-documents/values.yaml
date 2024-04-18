@@ -10,7 +10,7 @@ labels:
 deployment: {}
 
 container:
-  memCpuTier: CUSTOM
+  memCpuTier: L
   port: 3000
 
 livenessProbe:
