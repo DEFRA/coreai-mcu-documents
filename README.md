@@ -1,4 +1,5 @@
 # coreai-mcu-documents
+Node API service for uploading and managing documents (e.g. correspondence, reports, etc.) for the coreai-mcu project.
 
 ## Prerequisites
 
@@ -9,13 +10,30 @@ Optional:
 - Kubernetes
 - Helm
 
-## Running the application
+## Architecture
 
+![Architecture Diagram](docs/architecture.png)
+
+## Running the application
+> [!IMPORTANT]
+> This service should be ran as part of the coreai-mcu project. Please refer to the [coreai-mcu-core](https://github.com/DEFRA/coreai-mcu-core) README for instructions on how to run all required services locally.
+
+### Environment variables
+| Name | Description | Required | Default |
+|------|-------------|----------|---------|
+| `APPINSIGHTS_CLOUDROLE` | The role of the application in the cloud | No | `Role used for filtering metrics` |
+| `APPINSIGHTS_CONNECTIONSTRING` | The connection string for the Application Insights instance | No | |
+| `AZURE_STORAGE_ACCOUNT` | The name of the Azure Storage Account | Yes | |
+| `AZURE_STORAGE_USE_CONNECTION_STRING` | Whether to use a connection string for the Azure Storage Account | No | |
+| `AZURE_STORAGE_CONNECTION_STRING` | The connection string for the Azure Storage Account | No | |
+| `NODE_ENV` | The environment the application is running in | No | `development, test, production` |
+| `PORT` | The port the application will listen on | No | `3001` |
+
+
+### Build container image
 The application is designed to run in containerised environments, using Docker Compose in development and Kubernetes in production.
 
 - A Helm chart is provided for production deployments to Kubernetes.
-
-### Build container image
 
 Container images are built using Docker Compose, with the same images used to run the service with either Docker Compose or Kubernetes.
 
@@ -34,11 +52,8 @@ docker-compose build
 ```
 
 ### Start
-
 Use Docker Compose to run service locally.
 
-* run migrations
-  * `docker-compose -f docker-compose.migrate.yaml run --rm database-up`
 * start
   * `docker-compose up`
 * stop

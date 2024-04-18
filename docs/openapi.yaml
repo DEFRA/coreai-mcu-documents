@@ -1,0 +1,115 @@
+openapi: "3.0.3"
+info:
+  version: "1.0.0"
+  title: "coreai-mcu-documents"
+paths:
+  /documents:
+    get:
+      tags: ['documents']
+      parameters:
+        - name: "orderBy"
+          in: "query"
+          schema:
+            type: "string"
+            enum: ["lastModified", "createdOn"]
+            default: "lastModified"
+        - name: "orderByDirection"
+          in: "query"
+          schema:
+            type: "string"
+            enum: ["Asc", "Desc"]
+            default: "Desc"
+      responses:
+        '200':
+          description: "Found documents"
+    post:
+      tags: ['documents']
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '201':
+          description: "Document uploaded"
+  /documents/{id}:
+    get:
+      tags: ['documents']
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid"
+      responses:
+        '200':
+          description: "Document with id found"
+    put:
+      tags: ['documents']
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                fileName: { type: "string" }
+                uploadedBy: { type: "string" }
+                documentType: { type: "string" }
+                source: { type: "string" }
+                sourceAddress: { type: "string" }
+                suggestedCategory: { type: "string" }
+                userCategory: { type: "string" }
+                targetMinister: { type: "string" }
+      responses:
+        '200':
+          description: "Document metadata updated"
+        '404':
+          description: "Document not found"
+  /documents/{id}/contents:
+    get:
+      tags: ['documents']
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid"
+      responses:
+        '200':
+          description: "String content of the document"
+  /documents/{id}/metadata:
+    get:
+      tags: ['documents']
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid"
+      responses:
+        '200':
+          description: "Document metadata for the given id"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  fileName: { type: "string" }
+                  uploadedBy: { type: "string" }
+                  documentType: { type: "string" }
+                  source: { type: "string" }
+                  sourceAddress: { type: "string" }
+                  suggestedCategory: { type: "string" }
+                  userCategory: { type: "string" }
+                  targetMinister: { type: "string" }
