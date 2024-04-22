@@ -1,6 +1,10 @@
 {
   "name": "coreai-mcu-documents",
+<<<<<<< HEAD
   "version": "0.2.2",
+=======
+  "version": "0.2.1",
+>>>>>>> main
   "description": "",
   "homepage": "github.com?owner=defra&repo=coreai-mcu-documents&organization=defra",
   "main": "app/index.js",

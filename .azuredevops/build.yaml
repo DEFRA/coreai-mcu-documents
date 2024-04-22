@@ -1,8 +1,12 @@
 parameters:
-- name: deployFromFeature
-  displayName: "Deploy from Feature Branch"
-  type: boolean
-  default: false
+  - name: deployFromFeature
+    displayName: "Deploy from Feature Branch"
+    type: boolean
+    default: false
+  - name: deployConfigOnly
+    displayName: "Deploy App Config"
+    type: boolean
+    default: false
 
 pr:
   branches:
@@ -40,6 +44,7 @@ extends:
     projectName: "coreai-mcu-documents"
     serviceName: "coreai-mcu-documents"
     deployFromFeature: ${{ parameters.deployFromFeature }}
+    deployConfigOnly: ${{ parameters.deployConfigOnly }}
     appBuildConfig:
       appFrameworkType: "nodejs"    
       projectPath: "./package.json"
