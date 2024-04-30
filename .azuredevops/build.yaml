@@ -57,5 +57,3 @@ extends:
       filetype: "yaml"
       variableGroups:
         - coreai-mcu-documents-<environment>
-      variables:
-        - coreai-mcu-documents-APPINSIGHTS-CONNECTIONSTRING
