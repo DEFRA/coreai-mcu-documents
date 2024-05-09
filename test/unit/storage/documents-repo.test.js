@@ -10,6 +10,12 @@ jest.mock('../../../app/storage/blob-service-client', () => ({
   }
 }))
 
+jest.mock('../../../app/storage/table-service-client', () => ({
+  getTableClient: jest.fn().mockReturnValue({
+    upsertEntity: jest.fn().mockResolvedValue(true)
+  })
+}))
+
 jest.mock('../../../app/config/storage', () => ({
   documentsContainer: 'test-documents-container'
 }))
