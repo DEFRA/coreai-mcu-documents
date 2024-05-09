@@ -11,7 +11,8 @@ const blob = {
   summary: 'summary',
   keyPoints: 'key_points',
   keyFacts: 'key_facts',
-  sentiment: 'sentiment'
+  sentiment: 'sentiment',
+  status: 'status'
 }
 
 const base = {
@@ -27,7 +28,8 @@ const base = {
   summary: 'summary',
   key_points: 'keyPoints',
   key_facts: 'keyFacts',
-  sentiment: 'sentiment'
+  sentiment: 'sentiment',
+  status: 'status'
 }
 
 const map = (metadata, lookup) => {

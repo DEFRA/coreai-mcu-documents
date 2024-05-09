@@ -3,6 +3,7 @@ const { blobServiceClient } = require('./blob-service-client')
 const config = require('../config/storage')
 const { loadDocument } = require('../lib/document-loader')
 const { updateMetadata, getMetadata } = require('./metadata-repo')
+const { NEW } = require('../constants/document-status')
 
 const documentsContainer = blobServiceClient.getContainerClient(config.documentsContainer)
 
@@ -115,6 +116,10 @@ const saveDocument = async (buffer, type) => {
   }
 
   await blockBlobClient.uploadData(buffer, options)
+
+  await updateDocumentMetadata(id, {
+    status: NEW
+  })
 
   return id
 }

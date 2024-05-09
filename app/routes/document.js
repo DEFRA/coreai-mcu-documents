@@ -8,6 +8,7 @@ const {
   saveDocument,
   updateDocumentMetadata
 } = require('../storage/documents-repo')
+const { put } = require('../schema/document')
 
 module.exports = [{
   method: 'GET',
@@ -118,21 +119,7 @@ module.exports = [{
   options: {
     tags: ['api', 'documents'],
     validate: {
-      payload: Joi.object({
-        fileName: Joi.string().optional(),
-        uploadedBy: Joi.string().optional(),
-        documentType: Joi.string().optional(),
-        source: Joi.string().optional(),
-        sourceAddress: Joi.string().optional(),
-        userCategory: Joi.string().optional(),
-        targetMinister: Joi.string().optional(),
-        suggestedCategory: Joi.string().optional(),
-        author: Joi.string().optional(),
-        summary: Joi.string().optional(),
-        keyPoints: Joi.array().items(Joi.string()).default([]),
-        keyFacts: Joi.array().items(Joi.string()).default([]),
-        sentiment: Joi.string().optional()
-      })
+      payload: put
     }
   },
   handler: async (request, h) => {
