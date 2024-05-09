@@ -28,8 +28,8 @@ paths:
         content:
           application/octet-stream:
             schema:
-              type: string
-              format: binary
+              type: "string"
+              format: "binary"
       responses:
         '201':
           description: "Document uploaded"
@@ -61,14 +61,25 @@ paths:
             schema:
               type: "object"
               properties:
-                fileName: { type: "string" }
-                uploadedBy: { type: "string" }
-                documentType: { type: "string" }
-                source: { type: "string" }
-                sourceAddress: { type: "string" }
-                suggestedCategory: { type: "string" }
-                userCategory: { type: "string" }
-                targetMinister: { type: "string" }
+                fileName: 
+                  type: "string"
+                uploadedBy: 
+                  type: "string"
+                documentType: 
+                  type: "string"
+                source: 
+                  type: "string"
+                sourceAddress: 
+                  type: "string"
+                suggestedCategory: 
+                  type: "string"
+                userCategory: 
+                  type: "string"
+                targetMinister: 
+                  type: "string"
+                status: 
+                  type: "string"
+                  enum: ["New", "Triaging", "Not Started", "In Progress", "Complete"]
       responses:
         '200':
           description: "Document metadata updated"
@@ -105,11 +116,22 @@ paths:
               schema:
                 type: "object"
                 properties:
-                  fileName: { type: "string" }
-                  uploadedBy: { type: "string" }
-                  documentType: { type: "string" }
-                  source: { type: "string" }
-                  sourceAddress: { type: "string" }
-                  suggestedCategory: { type: "string" }
-                  userCategory: { type: "string" }
-                  targetMinister: { type: "string" }
+                  fileName: 
+                    type: "string"
+                  uploadedBy: 
+                    type: "string"
+                  documentType: 
+                    type: "string"
+                  source: 
+                    type: "string"
+                  sourceAddress: 
+                    type: "string"
+                  suggestedCategory: 
+                    type: "string"
+                  userCategory: 
+                    type: "string"
+                  targetMinister: 
+                    type: "string"
+                  status: 
+                    type: "string"
+                    enum: ["New", "Triaging", "Not Started", "In Progress", "Complete"]
