@@ -4,6 +4,7 @@ const statuses = require('../../constants/document-status')
 const valid = [
   statuses.NEW,
   statuses.TRIAGING,
+  statuses.GENERATING,
   statuses.NOT_STARTED,
   statuses.IN_PROGRESS,
   statuses.COMPLETE

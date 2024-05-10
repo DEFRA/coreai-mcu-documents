@@ -134,4 +134,4 @@ paths:
                     type: "string"
                   status: 
                     type: "string"
-                    enum: ["New", "Triaging", "Not Started", "In Progress", "Complete"]
+                    enum: ["New", "Triaging", "Generating", "Not Started", "In Progress", "Complete"]
