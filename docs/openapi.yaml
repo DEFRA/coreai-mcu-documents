@@ -79,7 +79,7 @@ paths:
                   type: "string"
                 status: 
                   type: "string"
-                  enum: ["New", "Triaging", "Not Started", "In Progress", "Complete"]
+                  enum: ["New", "Triaging", "Not Started", "In Progress", "Generating", "Complete"]
       responses:
         '200':
           description: "Document metadata updated"
