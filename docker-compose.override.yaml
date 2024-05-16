@@ -11,8 +11,8 @@ services:
     ports:
       - "3001:3000"
       - "9230:9229"
-    # depends_on:
-    #   - coreai-mcu-documents-azurite
+    depends_on:
+      - coreai-mcu-documents-azurite
     volumes:
       - ./app:/home/node/app
       - ./test:/home/node/test
@@ -22,13 +22,14 @@ services:
       AZURE_STORAGE_USE_CONNECTION_STRING: ${AZURE_STORAGE_USE_CONNECTION_STRING:-true}
       AZURE_STORAGE_CONNECTION_STRING: ${AZURE_STORAGE_CONNECTION_STRING:-DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://host.docker.internal:10000/devstoreaccount1;}
       AZURE_STORAGE_ACCOUNT: ${AZURE_STORAGE_ACCOUNT:-devstoreaccount1}
+      INIT_STORAGE: ${INIT_STORAGE:-true}
 
-  # coreai-mcu-documents-azurite:
-  #   image: mcr.microsoft.com/azure-storage/azurite
-  #   ports:
-  #     - "${CORE_AI_DOCUMENTS_BLOB_PORT:-10000}:10000"
-  #   volumes:
-  #     - azurite_data:/data
+  coreai-mcu-documents-azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    ports:
+      - "${CORE_AI_DOCUMENTS_BLOB_PORT:-10000}:10000"
+    volumes:
+      - azurite_data:/data
 
 volumes:
   azurite_data:
