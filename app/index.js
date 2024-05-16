@@ -6,8 +6,12 @@ const { initialiseTables } = require('./storage/metadata-repo')
 const init = async () => {
   const server = await createServer()
   await server.start()
-  await initialiseContainers()
-  await initialiseTables()
+
+  if (process.env.INIT_STORAGE) {
+    await initialiseContainers()
+    await initialiseTables()
+  }
+  
   console.log('Server running on %s', server.info.uri)
 }
 
