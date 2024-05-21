@@ -24,8 +24,16 @@ module.exports = [{
   },
   handler: async (request, h) => {
     const { orderBy, orderByDirection } = request.query
-    const documents = await getDocuments(orderBy, orderByDirection)
-    return h.response(documents).code(200)
+
+    try {
+      const documents = await getDocuments(orderBy, orderByDirection)
+
+      return h.response(documents).code(200)
+    } catch (err) {
+      console.log(err)
+
+      throw err
+    }
   }
 },
 {
