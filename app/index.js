@@ -11,7 +11,7 @@ const init = async () => {
     await initialiseContainers()
     await initialiseTables()
   }
-  
+
   console.log('Server running on %s', server.info.uri)
 }
 
