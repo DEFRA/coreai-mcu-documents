@@ -54,11 +54,15 @@ module.exports = [{
     }
   },
   handler: async (request, h) => {
-    const document = await getDocument(
-      request.params.id
-    )
+    try {
+      const document = await getDocument(request.params.id)
 
-    return h.response(document).code(200)
+      return h.response(document).code(200)
+    } catch (err) {
+      console.log(err)
+
+      throw err
+    }
   }
 },
 {
@@ -92,11 +96,17 @@ module.exports = [{
     }
   },
   handler: async (request, h) => {
-    const documentMetadata = await getDocumentMetadata(
-      request.params.id
-    )
+    try {
+      const documentMetadata = await getDocumentMetadata(
+        request.params.id
+      )
 
-    return h.response(documentMetadata).code(200)
+      return h.response(documentMetadata).code(200)
+    } catch (err) {
+      console.error(err)
+
+      throw err
+    }
   }
 },
 {
