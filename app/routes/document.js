@@ -19,7 +19,12 @@ module.exports = [{
       query: Joi.object({
         orderBy: Joi.string().valid('lastModified', 'createdOn').default('lastModified'),
         orderByDirection: Joi.string().valid('Asc', 'Desc').default('Desc')
-      })
+      }),
+      failAction: (request, h, err) => {
+        console.error(err.details)
+
+        return h.response({ errors: err.details.map(e => e.message) }).code(400).takeover()
+      }
     }
   },
   handler: async (request, h) => {
