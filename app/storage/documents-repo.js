@@ -31,11 +31,8 @@ const getDocuments = async (orderBy = 'lastModified ', orderByDirection = 'Desc'
     prefix: ''
   }
 
-  console.log('Listing blobs')
   for await (const blob of documentsContainer.listBlobsFlat(listOptions)) {
-    console.log('Got blob')
     const metadata = await getMetadata('MCU', blob.name)
-    console.log('Got metadata')
     blob.metadata = metadata
 
     blobs.push(blob)

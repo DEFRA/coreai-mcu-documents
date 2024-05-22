@@ -31,6 +31,9 @@ module.exports = [{
     const { orderBy, orderByDirection } = request.query
     try {
       const documents = await getDocuments(orderBy, orderByDirection)
+
+      console.log(documents)
+
       return h.response(documents).code(200)
     } catch (err) {
       console.log(err)
