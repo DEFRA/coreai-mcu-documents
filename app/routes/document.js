@@ -19,13 +19,25 @@ module.exports = [{
       query: Joi.object({
         orderBy: Joi.string().valid('lastModified', 'createdOn').default('lastModified'),
         orderByDirection: Joi.string().valid('Asc', 'Desc').default('Desc')
-      })
+      }),
+      failAction: (request, h, err) => {
+        console.error(err.details)
+
+        return h.response({ errors: err.details.map(e => e.message) }).code(400).takeover()
+      }
     }
   },
   handler: async (request, h) => {
     const { orderBy, orderByDirection } = request.query
-    const documents = await getDocuments(orderBy, orderByDirection)
-    return h.response(documents).code(200)
+    try {
+      const documents = await getDocuments(orderBy, orderByDirection)
+
+      return h.response(documents).code(200)
+    } catch (err) {
+      console.error(err)
+
+      throw err
+    }
   }
 },
 {
@@ -40,11 +52,15 @@ module.exports = [{
     }
   },
   handler: async (request, h) => {
-    const document = await getDocument(
-      request.params.id
-    )
+    try {
+      const document = await getDocument(request.params.id)
 
-    return h.response(document).code(200)
+      return h.response(document).code(200)
+    } catch (err) {
+      console.error(err)
+
+      throw err
+    }
   }
 },
 {
@@ -78,11 +94,17 @@ module.exports = [{
     }
   },
   handler: async (request, h) => {
-    const documentMetadata = await getDocumentMetadata(
-      request.params.id
-    )
+    try {
+      const documentMetadata = await getDocumentMetadata(
+        request.params.id
+      )
 
-    return h.response(documentMetadata).code(200)
+      return h.response(documentMetadata).code(200)
+    } catch (err) {
+      console.error(err)
+
+      throw err
+    }
   }
 },
 {
@@ -105,6 +127,7 @@ module.exports = [{
   },
   handler: async (request, h) => {
     const document = await processPayloadDocument(request.payload)
+
     const id = await saveDocument(
       document,
       request.headers['content-type']
@@ -132,6 +155,8 @@ module.exports = [{
       if (err.code === 'NotFound') {
         return h.response().code(404).takeover()
       }
+
+      console.error(err)
 
       throw err
     }

@@ -1,13 +1,13 @@
 jest.mock('../../../app/storage/blob-service-client', () => ({
-  blobServiceClient: {
-    getContainerClient: jest.fn().mockReturnValue({
-      getBlockBlobClient: jest.fn().mockReturnValue({
-        uploadData: jest.fn().mockResolvedValue(true),
-        exists: jest.fn().mockResolvedValue(true),
-        setMetadata: jest.fn().mockResolvedValue(true)
+  getBlobClient: jest.fn().mockReturnValue({
+      getContainerClient: jest.fn().mockReturnValue({
+        getBlockBlobClient: jest.fn().mockReturnValue({
+          uploadData: jest.fn().mockResolvedValue(true),
+          exists: jest.fn().mockResolvedValue(true),
+          setMetadata: jest.fn().mockResolvedValue(true)
+        })
       })
     })
-  }
 }))
 
 jest.mock('../../../app/storage/table-service-client', () => ({
