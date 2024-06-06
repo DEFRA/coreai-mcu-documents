@@ -32,11 +32,9 @@ module.exports = [{
     try {
       const documents = await getDocuments(orderBy, orderByDirection)
 
-      console.log(documents)
-
       return h.response(documents).code(200)
     } catch (err) {
-      console.log(err)
+      console.error(err)
 
       throw err
     }
@@ -59,7 +57,7 @@ module.exports = [{
 
       return h.response(document).code(200)
     } catch (err) {
-      console.log(err)
+      console.error(err)
 
       throw err
     }
@@ -129,6 +127,7 @@ module.exports = [{
   },
   handler: async (request, h) => {
     const document = await processPayloadDocument(request.payload)
+
     const id = await saveDocument(
       document,
       request.headers['content-type']
@@ -156,6 +155,8 @@ module.exports = [{
       if (err.code === 'NotFound') {
         return h.response().code(404).takeover()
       }
+
+      console.error(err)
 
       throw err
     }
