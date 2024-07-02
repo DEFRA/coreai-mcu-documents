@@ -15,7 +15,7 @@ const initialiseContainers = async () => {
   console.log('Containers initialised')
 }
 
-const getDocuments = async (orderBy = 'lastModified ', orderByDirection = 'Desc') => {
+const getDocuments = async (orderBy = 'lastModified ', orderByDirection = 'Desc', uploadedBy) => {
   const blobs = []
 
   const listOptions = {
@@ -35,7 +35,9 @@ const getDocuments = async (orderBy = 'lastModified ', orderByDirection = 'Desc'
     const metadata = await getMetadata('MCU', blob.name)
     blob.metadata = metadata
 
-    blobs.push(blob)
+    if (!uploadedBy || metadata.uploadedBy === uploadedBy) {
+      blobs.push(blob)
+    }
   }
 
   blobs.sort((a, b) => {

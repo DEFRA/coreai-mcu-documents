@@ -18,7 +18,8 @@ module.exports = [{
     validate: {
       query: Joi.object({
         orderBy: Joi.string().valid('lastModified', 'createdOn').default('lastModified'),
-        orderByDirection: Joi.string().valid('Asc', 'Desc').default('Desc')
+        orderByDirection: Joi.string().valid('Asc', 'Desc').default('Desc'),
+        uploadedBy: Joi.string()
       }),
       failAction: (request, h, err) => {
         console.error(err.details)
@@ -28,9 +29,9 @@ module.exports = [{
     }
   },
   handler: async (request, h) => {
-    const { orderBy, orderByDirection } = request.query
+    const { orderBy, orderByDirection, uploadedBy } = request.query
     try {
-      const documents = await getDocuments(orderBy, orderByDirection)
+      const documents = await getDocuments(orderBy, orderByDirection, uploadedBy)
 
       return h.response(documents).code(200)
     } catch (err) {
