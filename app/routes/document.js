@@ -7,7 +7,7 @@ const {
   getDocumentMetadata,
   saveDocument,
   updateDocumentMetadata
-} = require('../storage/documents-repo')
+} = require('../storage/repos/documents')
 const { put } = require('../schema/document')
 
 module.exports = [{

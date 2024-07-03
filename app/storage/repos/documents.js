@@ -1,9 +1,9 @@
 const { v4: uuidv4 } = require('uuid')
-const { getBlobClient } = require('./blob-service-client')
-const config = require('../config/storage')
-const { loadDocument } = require('../lib/document-loader')
-const { updateMetadata, getMetadata } = require('./metadata-repo')
-const { NEW } = require('../constants/document-status')
+const { getBlobClient } = require('../blob-service-client')
+const config = require('../../config/storage')
+const { loadDocument } = require('../../lib/document-loader')
+const { updateMetadata, getMetadata } = require('./metadata')
+const { NEW } = require('../../constants/document-status')
 
 const blobServiceClient = getBlobClient()
 

@@ -1,6 +1,6 @@
-const { getTableClient } = require('./table-service-client')
-const tableConfig = require('../config/storage')
-const { mapMetadataToBlob, mapMetadataToBase } = require('../mappers/blob-metadata')
+const { getTableClient } = require('../table-service-client')
+const tableConfig = require('../../config/storage')
+const { mapMetadataToBlob, mapMetadataToBase } = require('../../mappers/blob-metadata')
 
 const tableClient = getTableClient(tableConfig.metadataTable)
 

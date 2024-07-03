@@ -4,12 +4,13 @@ const {
   getDocumentMetadata,
   saveDocument,
   updateDocumentMetadata
-} = require('../../../../app/storage/documents-repo')
+} = require('../../../../app/storage/repos/documents')
+
 const { processPayloadDocument } = require('../../../../app/lib/document')
 const createServer = require('../../../../app/server')
 const { v4: uuidv4 } = require('uuid')
 
-jest.mock('../../../../app/storage/documents-repo', () => ({
+jest.mock('../../../../app/storage/repos/documents', () => ({
   getDocuments: jest.fn(),
   getDocument: jest.fn(),
   getDocumentMetadata: jest.fn(),
@@ -80,7 +81,7 @@ describe('/documents', () => {
   })
 
   describe('GET /documents', () => {
-    test('GET /documents route returns 201', async () => {
+    test('GET /documents route returns 200', async () => {
       getDocuments.mockResolvedValue(documents)
 
       const options = {
@@ -90,7 +91,7 @@ describe('/documents', () => {
 
       const response = await server.inject(options)
 
-      expect(response.statusCode).toBe(201)
+      expect(response.statusCode).toBe(200)
       expect(response.result).toEqual(documents)
     })
   })
@@ -113,7 +114,7 @@ describe('/documents', () => {
 
       const response = await server.inject(options)
 
-      expect(response.statusCode).toBe(201)
+      expect(response.statusCode).toBe(200)
       expect(response.result).toEqual(documentBuffer.toString())
     })
   })
@@ -149,7 +150,7 @@ describe('/documents', () => {
 
       const response = await server.inject(options)
 
-      expect(response.statusCode).toBe(201)
+      expect(response.statusCode).toBe(200)
       expect(response.result).toEqual(properties)
     })
   })
