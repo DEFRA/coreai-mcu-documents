@@ -124,6 +124,11 @@ module.exports = [{
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         'text/plain'
       ]
+    },
+    validate: {
+      headers: Joi.object({
+        'x-uploaded-by': Joi.string().required()
+      }).unknown()
     }
   },
   handler: async (request, h) => {
@@ -131,7 +136,8 @@ module.exports = [{
 
     const id = await saveDocument(
       document,
-      request.headers['content-type']
+      request.headers['content-type'],
+      request.headers['x-uploaded-by']
     )
 
     return h.response({ id }).code(201)

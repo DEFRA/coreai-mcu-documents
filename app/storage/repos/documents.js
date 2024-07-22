@@ -108,7 +108,7 @@ const getDocumentMetadata = async (id) => {
   }
 }
 
-const saveDocument = async (buffer, type) => {
+const saveDocument = async (buffer, type, uploadedBy) => {
   const id = uuidv4()
 
   const blockBlobClient = documentsContainer.getBlockBlobClient(id)
@@ -122,7 +122,8 @@ const saveDocument = async (buffer, type) => {
   await blockBlobClient.uploadData(buffer, options)
 
   await updateDocumentMetadata(id, {
-    status: NEW
+    status: NEW,
+    uploadedBy
   })
 
   return id
