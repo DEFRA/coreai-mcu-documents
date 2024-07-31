@@ -7,7 +7,7 @@ const {
   getDocumentMetadata,
   saveDocument,
   updateDocumentMetadata
-} = require('../storage/documents-repo')
+} = require('../storage/repos/documents')
 const { put } = require('../schema/document')
 
 module.exports = [{
@@ -18,7 +18,8 @@ module.exports = [{
     validate: {
       query: Joi.object({
         orderBy: Joi.string().valid('lastModified', 'createdOn').default('lastModified'),
-        orderByDirection: Joi.string().valid('Asc', 'Desc').default('Desc')
+        orderByDirection: Joi.string().valid('Asc', 'Desc').default('Desc'),
+        uploadedBy: Joi.string()
       }),
       failAction: (request, h, err) => {
         console.error(err.details)
@@ -28,9 +29,9 @@ module.exports = [{
     }
   },
   handler: async (request, h) => {
-    const { orderBy, orderByDirection } = request.query
+    const { orderBy, orderByDirection, uploadedBy } = request.query
     try {
-      const documents = await getDocuments(orderBy, orderByDirection)
+      const documents = await getDocuments(orderBy, orderByDirection, uploadedBy)
 
       return h.response(documents).code(200)
     } catch (err) {
@@ -123,6 +124,11 @@ module.exports = [{
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         'text/plain'
       ]
+    },
+    validate: {
+      headers: Joi.object({
+        'x-uploaded-by': Joi.string().required()
+      }).unknown()
     }
   },
   handler: async (request, h) => {
@@ -130,7 +136,8 @@ module.exports = [{
 
     const id = await saveDocument(
       document,
-      request.headers['content-type']
+      request.headers['content-type'],
+      request.headers['x-uploaded-by']
     )
 
     return h.response({ id }).code(201)

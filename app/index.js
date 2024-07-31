@@ -1,7 +1,7 @@
 require('./insights').setup()
-const { initialiseContainers } = require('./storage/documents-repo')
+const { initialiseContainers } = require('./storage/repos/documents')
 const createServer = require('./server')
-const { initialiseTables } = require('./storage/metadata-repo')
+const { initialiseTables } = require('./storage/repos/metadata')
 
 const init = async () => {
   const server = await createServer()

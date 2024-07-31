@@ -1,9 +1,9 @@
 const { v4: uuidv4 } = require('uuid')
-const { getBlobClient } = require('./blob-service-client')
-const config = require('../config/storage')
-const { loadDocument } = require('../lib/document-loader')
-const { updateMetadata, getMetadata } = require('./metadata-repo')
-const { NEW } = require('../constants/document-status')
+const { getBlobClient } = require('../blob-service-client')
+const config = require('../../config/storage')
+const { loadDocument } = require('../../lib/document-loader')
+const { updateMetadata, getMetadata } = require('./metadata')
+const { NEW } = require('../../constants/document-status')
 
 const blobServiceClient = getBlobClient()
 
@@ -15,7 +15,7 @@ const initialiseContainers = async () => {
   console.log('Containers initialised')
 }
 
-const getDocuments = async (orderBy = 'lastModified ', orderByDirection = 'Desc') => {
+const getDocuments = async (orderBy = 'lastModified ', orderByDirection = 'Desc', uploadedBy) => {
   const blobs = []
 
   const listOptions = {
@@ -35,7 +35,9 @@ const getDocuments = async (orderBy = 'lastModified ', orderByDirection = 'Desc'
     const metadata = await getMetadata('MCU', blob.name)
     blob.metadata = metadata
 
-    blobs.push(blob)
+    if (!uploadedBy || metadata.uploadedBy === uploadedBy) {
+      blobs.push(blob)
+    }
   }
 
   blobs.sort((a, b) => {
@@ -106,7 +108,7 @@ const getDocumentMetadata = async (id) => {
   }
 }
 
-const saveDocument = async (buffer, type) => {
+const saveDocument = async (buffer, type, uploadedBy) => {
   const id = uuidv4()
 
   const blockBlobClient = documentsContainer.getBlockBlobClient(id)
@@ -120,7 +122,8 @@ const saveDocument = async (buffer, type) => {
   await blockBlobClient.uploadData(buffer, options)
 
   await updateDocumentMetadata(id, {
-    status: NEW
+    status: NEW,
+    uploadedBy
   })
 
   return id

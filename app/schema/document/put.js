@@ -7,6 +7,7 @@ const valid = [
   statuses.GENERATING,
   statuses.NOT_STARTED,
   statuses.IN_PROGRESS,
+  statuses.FAILED,
   statuses.COMPLETE
 ]
 

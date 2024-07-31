@@ -1,27 +1,27 @@
-jest.mock('../../../app/storage/blob-service-client', () => ({
+jest.mock('../../../../app/storage/blob-service-client', () => ({
   getBlobClient: jest.fn().mockReturnValue({
-      getContainerClient: jest.fn().mockReturnValue({
-        getBlockBlobClient: jest.fn().mockReturnValue({
-          uploadData: jest.fn().mockResolvedValue(true),
-          exists: jest.fn().mockResolvedValue(true),
-          setMetadata: jest.fn().mockResolvedValue(true)
-        })
+    getContainerClient: jest.fn().mockReturnValue({
+      getBlockBlobClient: jest.fn().mockReturnValue({
+        uploadData: jest.fn().mockResolvedValue(true),
+        exists: jest.fn().mockResolvedValue(true),
+        setMetadata: jest.fn().mockResolvedValue(true)
       })
     })
+  })
 }))
 
-jest.mock('../../../app/storage/table-service-client', () => ({
+jest.mock('../../../../app/storage/table-service-client', () => ({
   getTableClient: jest.fn().mockReturnValue({
     upsertEntity: jest.fn().mockResolvedValue(true)
   })
 }))
 
-jest.mock('../../../app/config/storage', () => ({
+jest.mock('../../../../app/config/storage', () => ({
   documentsContainer: 'test-documents-container'
 }))
 
 describe('documents-repo', () => {
-  const { saveDocument } = require('../../../app/storage/documents-repo')
+  const { saveDocument } = require('../../../../app/storage/repos/documents')
 
   const expectedId = 'some-uuid'
 
