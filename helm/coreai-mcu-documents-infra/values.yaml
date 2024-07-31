@@ -1,7 +1,7 @@
 storageAccounts:
   - name: 'coreaimcu'
     roleAssignments:
-      roleName: 'DataWriter'
+      - roleName: 'DataWriter'
     blobContainers:
       - name: 'documents'
     tables: 
